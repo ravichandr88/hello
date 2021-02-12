@@ -18,15 +18,15 @@ const App = () =>
     },
     {
         id:2,
-        text: 'Doctors Appointment',
-        day: 'Feb 5th of December',
+        text: 'Appointment in ZOOM',
+        day: 'Feb 6th of December',
         reminder: false,
 
     },
     {
         id:3,
-        text: 'Doctors Appointment',
-        day: 'Feb 5th of December',
+        text: 'Wild Safari',
+        day: 'Feb 7th of December',
         reminder: false,
 
     }
