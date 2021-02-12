@@ -1,0 +1,24 @@
+A=5
+B=8
+C=1
+D=6
+
+What If A is smallest number? true
+{
+    check the smallest number among B,C,D 
+}
+
+What If B is smallest number? 
+{
+    check the smallest number among A,C,D
+}
+
+If C is smallest number? 
+{
+    check the smallest number among A,B,D -> A
+}
+
+What If all the above conditions are FALSE? 
+{
+    check the smallest number among A,B,C 
+}

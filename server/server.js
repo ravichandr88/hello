@@ -9,4 +9,7 @@ app.listen(port, () => {
 });
 
 
+
 //node server/server.js
+//es6
+//state management

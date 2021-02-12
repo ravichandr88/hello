@@ -1,22 +1,94 @@
-function App()
+
+import {useState} from 'react'
+
+import React, { Component } from 'react';
+import Tasks from './components/Tasks';
+import Header from './components/header';
+
+const App = () => 
 {
+  
+  const [tasks, setTasks] = useState([
+    {
+        id:1,
+        text: 'Doctors Appointment',
+        day: 'Feb 5th of December',
+        reminder: false,
+
+    },
+    {
+        id:2,
+        text: 'Doctors Appointment',
+        day: 'Feb 5th of December',
+        reminder: false,
+
+    },
+    {
+        id:3,
+        text: 'Doctors Appointment',
+        day: 'Feb 5th of December',
+        reminder: false,
+
+    }
+]);
+
+
+//Delte the task
+const deleteTask = (id) =>{
+  console.log('Deleted',id)
+  setTasks(tasks.filter((task) =>  task.id !== id
+  ))
+}
+
 return (
-  <div className='frog'>
-  <h1>Good to start</h1>
+  
+  <div className="App">
+  <Header />
+  {tasks.length > 0 ?
+    <Tasks tasks={tasks} onDelete={deleteTask}/>
+    : 'No tasks to show'
+  }
   </div>
 )
 }
 
 export default App;
 
-// import React, { Component } from 'react';
 
 // class App extends Component {
 
+
+
 //   render() { 
+    
+//   const [tasks, setTasks] = useState([
+//     {
+//         id:1,
+//         text: 'Doctors Appointment',
+//         day: 'Feb 5th of December',
+//         reminder: false,
+
+//     },
+//     {
+//         id:2,
+//         text: 'Doctors Appointment',
+//         day: 'Feb 5th of December',
+//         reminder: false,
+
+//     },
+//     {
+//         id:3,
+//         text: 'Doctors Appointment',
+//         day: 'Feb 5th of December',
+//         reminder: false,
+
+//     }
+// ]);
+
 //     return (
 //       <div className="App">
-//         <h1>Hello World!----</h1>
+//       <Header />
+//         <Tasks tasks={tasks}/>
 //       </div>
 //     )
 //   }
