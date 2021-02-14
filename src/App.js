@@ -1,5 +1,5 @@
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 import React, { Component } from 'react';
 import Tasks from './components/Tasks';
@@ -11,36 +11,47 @@ const App = () =>
 
   const [showAddTask, setShowAddTask] = useState(false);
   
-  const [tasks, setTasks] = useState([
-    {
-        id:1,
-        text: 'Doctors Appointment',
-        day: 'Feb 5th of December',
-        reminder: false,
+  const [tasks, setTasks] = useState([]);
 
-    },
-    {
-        id:2,
-        text: 'Appointment in ZOOM',
-        day: 'Feb 6th of December',
-        reminder: false,
-
-    },
-    {
-        id:3,
-        text: 'Wild Safari',
-        day: 'Feb 7th of December',
-        reminder: false,
-
+  useEffect( () => {
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
     }
-]);
+
+    getTasks();
+    
+  }, []);
+
+  //Fetch the tasks
+  const fetchTasks = async () => {
+    const res = await fetch('https://datafly.herokuapp.com/task',
+    // const res = await fetch('http://localhost:8000/task',
+    { crossDomain:true,
+      method: 'GET',
+      headers: {'Content-Type':'application/json'}
+    })
+    const data = await res.json();
+
+    console.log(data.tasks);
+    return data.tasks
+  }
 
 
 //Delte the task
-const deleteTask = (id) =>{
-  console.log('Deleted',id);
-  setTasks(tasks.filter((task) =>  task.id !== id
-  ))
+const deleteTask =async (id) =>{
+  // await fetch('http://localhost:8000/task',{
+    await fetch('https://datafly.herokuapp.com/task',{
+    method:'DELETE',
+    crossDomain: true,
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      id:id
+    })
+  });
+
+  setTasks(tasks.filter((task) => task.id != id ))
+  
 }
 
 //Reminder for the task
@@ -54,19 +65,28 @@ const toggleReminder = (id) => {
 
 
 //Add Task
-const addTask = (task) =>
+const addTask = async (task) =>
 {
-  const id = Math.floor(Math.random() * 10000) + 1
-    const newTask = { id, ...task }
-  setTasks([...tasks , newTask])
-// console.log(task);
+  // const res = await fetch('http://localhost:8000/task', {
+    const res = await fetch('https://datafly.herokuapp.com/task',{
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
+
+    const data = await res.json()
+
+    setTasks([...tasks, data])
+
 }
 
 
 return (
   
   <div className="App">
-  <Header onAdd = {() => setShowAddTask( !showAddTask )}  showAdd={showAddTask}/>
+  <Header onAdd = {() => setShowAddTask( !showAddTask )}  showAdd = {showAddTask}/>
   
   {showAddTask &&  <AddTask onAdd={addTask} />}
   {tasks.length > 0 ?
