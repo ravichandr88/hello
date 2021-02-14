@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-function Button(props) {
-    const onClick = (e) => {
-        console.log('Clicked')
-    }
+function Button({title, onClick, color}) {
+    
 
     return (
-       <button className='btn' onClick={onClick}>{props.title}</button>
-    )
+        <button className='btn' onClick={onClick} style={{ backgroundColor: color }}>{title} </button>
+     )
 }
 
 Button.defaultProps={
-    title:'Button'
+    title:'Button',
+    color:'balck'
 }
 
 Button.propTypes={

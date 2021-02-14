@@ -4,9 +4,12 @@ import {useState} from 'react'
 import React, { Component } from 'react';
 import Tasks from './components/Tasks';
 import Header from './components/header';
+import AddTask from './components/AddTask';
 
 const App = () => 
 {
+
+  const [showAddTask, setShowAddTask] = useState(false);
   
   const [tasks, setTasks] = useState([
     {
@@ -35,17 +38,39 @@ const App = () =>
 
 //Delte the task
 const deleteTask = (id) =>{
-  console.log('Deleted',id)
+  console.log('Deleted',id);
   setTasks(tasks.filter((task) =>  task.id !== id
   ))
 }
 
+//Reminder for the task
+const toggleReminder = (id) => {
+  console.log(id);
+  setTasks(tasks.map((task) =>
+  task.id===id  ? {...task, reminder : !task.reminder} : task
+  )
+  )
+}
+
+
+//Add Task
+const addTask = (task) =>
+{
+  const id = Math.floor(Math.random() * 10000) + 1
+    const newTask = { id, ...task }
+  setTasks([...tasks , newTask])
+// console.log(task);
+}
+
+
 return (
   
   <div className="App">
-  <Header />
+  <Header onAdd = {() => setShowAddTask( !showAddTask )}  showAdd={showAddTask}/>
+  
+  {showAddTask &&  <AddTask onAdd={addTask} />}
   {tasks.length > 0 ?
-    <Tasks tasks={tasks} onDelete={deleteTask}/>
+    <Tasks tasks={tasks} onDelete={deleteTask}  onToggle = {toggleReminder} />
     : 'No tasks to show'
   }
   </div>
